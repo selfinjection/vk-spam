@@ -16,13 +16,12 @@ def main():
 
    account = session.Session(login, password)
 
-   with open(links) as lnk, open(messages) as msg:
+   with open(links, encoding="utf-8") as lnk, open(messages, encoding="utf-8") as msg:
       lnk, msg = lnk.read().split('\n'), msg.read().split('\n')
-
       for link in lnk:
          if utils.check_link(link):
             owner_id, post_id = utils.wall_link_parse(link)
-            account.comment_post(owner_id, post_id, msg[random.randint(0, len(msg))])
+            account.comment_post(owner_id, post_id, msg[random.randint(0, len(msg) - 1)])
             time.sleep(random.randint(5, 15))
          continue
 
