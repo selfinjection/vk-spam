@@ -104,7 +104,6 @@ class Session():
                 loaded_json = json.load(log_json)
                 loaded_json.update(dictionary_json)
                 dictionary_json = loaded_json
-                print(dictionary_json)
                 log_json.truncate(0)
             log_json.write(json.dumps(dictionary_json, indent=spaces, ensure_ascii=False))
 
