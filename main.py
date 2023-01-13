@@ -13,7 +13,7 @@ def do_job(sessions):
       s.start()
 
 def main():
-   with open('links.txt', encoding="utf-8") as lnk, open('messages.txt', encoding="utf-8") as msg, open('accounts.txt') as accounts:
+   with open('creds/links.txt', encoding="utf-8") as lnk, open('creds/messages.txt', encoding="utf-8") as msg, open('creds/accounts.txt') as accounts:
       lnk, msg, accounts = lnk.read().split('\n'), msg.read().split('\n'), [ac.split(':') for ac in accounts.read().split('\n')]
       links = utils.check_links(lnk)
 
