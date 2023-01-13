@@ -1,2 +1,0 @@
-2023-01-12 20:58:56.737 | ERROR    | src.session:__init__:35 - Authentication failed: Unknown error (AUTH; no sid). Please send a bugreport to GitHub: https://github.com/python273/vk_api/issues | Account: kos161rus@rambler.ru
-2023-01-12 20:58:56.737 | ERROR    | src.session:__init__:35 - Authentication failed: Unknown error (AUTH; no sid). Please send a bugreport to GitHub: https://github.com/python273/vk_api/issues | Account: kos161rus@rambler.ru

@@ -1,4 +1,0 @@
-2023-01-12 16:56:30.247 | INFO     | src.session:__init__:28 - Auth completed (+380508091700)
-2023-01-12 16:56:30.249 | WARNING  | __main__:do_job:10 - Session loaded!
-2023-01-12 16:56:31.069 | SUCCESS  | src.session:comment_posts:67 - {'comment_id': 43198, 'parents_stack': []} | wall-33932275_43178 | Account: +380508091700
-2023-01-12 16:56:31.259 | SUCCESS  | src.session:comment_posts:67 - {'comment_id': 43199, 'parents_stack': []} | wall-33932275_43178 | Account: kos161rus@rambler.ru

@@ -1,2 +1,0 @@
-2023-01-12 16:55:13.171 | INFO     | src.session:__init__:28 - Auth completed (+380508091700)
-2023-01-12 16:55:15.366 | ERROR    | src.session:__init__:26 - Authentication failed: Bad password | Account: +79219492020

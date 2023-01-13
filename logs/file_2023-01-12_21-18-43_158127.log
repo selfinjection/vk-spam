@@ -1,3 +1,0 @@
-2023-01-12 21:18:54.362 | INFO     | src.session:__init__:38 - Auth completed (+380508091700)
-2023-01-12 21:18:56.140 | INFO     | src.session:__init__:38 - Auth completed (kos161rus@rambler.ru)
-2023-01-12 21:18:56.142 | WARNING  | __main__:do_job:13 - Session loaded!
