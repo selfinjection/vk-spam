@@ -1,3 +1,0 @@
-2023-01-12 19:24:56.183 | INFO     | src.session:__init__:28 - Auth completed (+380508091700)
-2023-01-12 19:24:56.184 | WARNING  | __main__:do_job:10 - Session loaded!
-2023-01-12 19:25:18.514 | SUCCESS  | src.session:comment_posts:68 - {'comment_id': 29109, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700

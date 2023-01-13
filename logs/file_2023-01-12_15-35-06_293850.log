@@ -1,6 +1,0 @@
-2023-01-12 15:35:08.094 | SUCCESS  | src.session:comment_post:52 - {'comment_id': 25190, 'parents_stack': []} | wall-13509695_25176 | Account: +380508091700
-2023-01-12 15:35:10.089 | INFO     | src.session:__init__:24 - Auth completed (+380508091700)
-2023-01-12 15:35:11.780 | SUCCESS  | src.session:comment_post:52 - {'comment_id': 25191, 'parents_stack': []} | wall-13509695_25176 | Account: +380508091700
-2023-01-12 15:35:13.647 | INFO     | src.session:__init__:24 - Auth completed (+380508091700)
-2023-01-12 15:35:15.498 | SUCCESS  | src.session:comment_post:52 - {'comment_id': 25192, 'parents_stack': []} | wall-13509695_25176 | Account: +380508091700
-2023-01-12 15:35:19.032 | SUCCESS  | src.session:comment_post:52 - {'comment_id': 25193, 'parents_stack': []} | wall-13509695_25176 | Account: +380508091700

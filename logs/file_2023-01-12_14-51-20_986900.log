@@ -1,2 +1,0 @@
-2023-01-12 14:51:24.647 | INFO     | src.session:__init__:23 - Auth completed (+380508091700)
-2023-01-12 14:51:30.245 | SUCCESS  | src.session:comment_post:48 - {'comment_id': 3020, 'parents_stack': []} | wall-198455834_3006 | Account: +380508091700

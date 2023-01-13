@@ -1,2 +1,0 @@
-2023-01-12 14:43:24.507 | INFO     | src.session:__init__:23 - Auth completed (+380508091700)
-2023-01-12 14:43:25.382 | ERROR    | src.session:comment_post:50 - [10] Internal server error: parent deleted | wall-117392017 | Account: +380508091700
