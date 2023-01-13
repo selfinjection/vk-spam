@@ -1,0 +1,9 @@
+2023-01-13 19:10:59.378 | INFO     | src.session:__init__:49 - Auth completed (+380508091700)
+2023-01-13 19:11:00.964 | INFO     | src.session:__init__:49 - Auth completed (kos161rus@rambler.ru)
+2023-01-13 19:11:00.967 | WARNING  | __main__:do_job:11 - Session loaded!
+2023-01-13 19:11:01.148 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 29230, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-13 19:11:01.486 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 29231, 'parents_stack': []} | wall-3463783_28850 | Account: kos161rus@rambler.ru
+2023-01-13 19:11:04.422 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 10870, 'parents_stack': []} | wall-97941524_10808 | Account: +380508091700
+2023-01-13 19:11:04.683 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 10871, 'parents_stack': []} | wall-97941524_10808 | Account: kos161rus@rambler.ru
+2023-01-13 19:11:07.643 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 150888, 'parents_stack': []} | wall-34015068_150765 | Account: +380508091700
+2023-01-13 19:11:07.911 | SUCCESS  | src.session:comment_posts:93 - {'comment_id': 150889, 'parents_stack': []} | wall-34015068_150765 | Account: kos161rus@rambler.ru

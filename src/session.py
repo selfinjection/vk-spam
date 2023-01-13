@@ -6,6 +6,8 @@ from vk_api import VkApi, AuthError, ApiError
 from loguru import logger
 import random
 import time
+import json
+import os
 from twocaptcha import TwoCaptcha
 ### TODO: make a captcha solver with AI (GOVNO CODE NO RABOTAET!)
 def captcha_handler(captcha):
@@ -36,6 +38,7 @@ class Session():
         self.log = logger
         self.log.add("logs/file_{time}.log")
         self.login = login
+        self.dictionary = {}
         try:
             session = VkApi(login, password, captcha_handler=captcha_handler)
             session.auth()
@@ -78,14 +81,31 @@ class Session():
             return e
 
     def comment_posts(self, links, messages):
-        for lnk in links:
-            owner_id, post_id = urlparse(lnk).path[5:].split('_')
-            try:
-                response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=messages[random.randint(0, len(messages) - 1)])
-                self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login}')
-                time.sleep(3)
-            except ApiError as e:
-                self.log.error(f'{e} | wall{owner_id + post_id} | Account: {self.login}')
-                pass
+        spaces = 4
+        dictionary_json = {}
+        path_json = f'logs/succeed_post_info_{time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())}.json'
+        with open(path_json, 'a+', encoding= 'utf-8') as log_json:
+            for lnk in links:
+                owner_id, post_id = urlparse(lnk).path[5:].split('_')
+                try:
+                    message = messages[random.randint(0, len(messages) - 1)]
+                    response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
+                    self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login}')
+                    self.dictionary[lnk] = message
+                    dictionary_json.update({
+                        self.login : {}
+                        })
+                    dictionary_json[self.login].update(self.dictionary)
+                    time.sleep(3)
+                except ApiError as e:
+                    self.log.error(f'{e} | wall{owner_id + post_id} | Account: {self.login}')
+                    pass
+            if os.stat(path_json).st_size != 0:
+                loaded_json = json.load(log_json)
+                loaded_json.update(dictionary_json)
+                dictionary_json = loaded_json
+                print(dictionary_json)
+                log_json.truncate(0)
+            log_json.write(json.dumps(dictionary_json, indent=spaces, ensure_ascii=False))
 
 
