@@ -1,0 +1,2 @@
+2023-01-12 21:15:45.784 | INFO     | src.session:captcha_handler:12 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=871540608489
+2023-01-12 21:15:46.180 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=871540608489, vumze

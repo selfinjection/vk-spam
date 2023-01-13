@@ -1,0 +1,12 @@
+2023-01-12 19:34:24.074 | INFO     | src.session:__init__:37 - Auth completed (+380508091700)
+2023-01-12 19:34:24.076 | WARNING  | __main__:do_job:10 - Session loaded!
+2023-01-12 19:34:25.579 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29129, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:28.982 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29130, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:32.379 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29131, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:35.764 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29132, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:39.148 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29133, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:42.518 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29134, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:46.009 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29135, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:49.384 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29136, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:52.767 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29137, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 19:34:56.168 | SUCCESS  | src.session:comment_posts:77 - {'comment_id': 29138, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700

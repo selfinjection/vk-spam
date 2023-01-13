@@ -1,0 +1,4 @@
+2023-01-12 14:53:15.986 | SUCCESS  | src.session:comment_post:48 - {'comment_id': 3024, 'parents_stack': []} | wall-198455834_3006 | Account: +380508091700
+2023-01-12 14:53:17.743 | INFO     | src.session:__init__:23 - Auth completed (+380508091700)
+2023-01-12 14:53:19.750 | SUCCESS  | src.session:comment_post:48 - {'comment_id': 3025, 'parents_stack': []} | wall-198455834_3006 | Account: +380508091700
+2023-01-12 14:53:23.049 | ERROR    | src.session:comment_post:51 - [10] Internal server error: parent deleted | wall-1984558343006 | Account: +380508091700

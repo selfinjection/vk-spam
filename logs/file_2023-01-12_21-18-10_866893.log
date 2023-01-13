@@ -1,0 +1,10 @@
+2023-01-12 21:18:13.980 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=527287814744, zmq2
+2023-01-12 21:18:16.384 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=316194531003, vhsd
+2023-01-12 21:18:19.135 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=201550506534, vdzy
+2023-01-12 21:18:21.553 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=377388590613, v5cq8
+2023-01-12 21:18:23.963 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=249898142875, vcdv
+2023-01-12 21:18:26.393 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=761707719736, hpda
+2023-01-12 21:18:28.792 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=299737525022, q7hs
+2023-01-12 21:18:31.267 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=307336716243, zcs8s
+2023-01-12 21:18:33.677 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=693986428930, s7y8s
+2023-01-12 21:18:36.146 | INFO     | src.session:captcha_handler:20 - Captacha detected. Solving... https://api.vk.com/captcha.php?sid=898112322179, dzy5

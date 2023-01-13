@@ -1,0 +1,4 @@
+2023-01-12 16:09:54.344 | INFO     | src.session:__init__:25 - Auth completed (+380508091700)
+2023-01-12 16:09:57.907 | INFO     | src.session:__init__:25 - Auth completed (+380508091700)
+2023-01-12 16:10:01.513 | INFO     | src.session:__init__:25 - Auth completed (+380508091700)
+2023-01-12 16:10:01.516 | WARNING  | __main__:do_job:11 - Session loaded!

@@ -1,0 +1,21 @@
+2023-01-12 20:38:38.670 | INFO     | src.session:__init__:37 - Auth completed (+380508091700)
+2023-01-12 20:38:39.441 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 43230, 'parents_stack': []} | wall-33932275_43178 | Account: +380508091700
+2023-01-12 20:38:42.815 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 29179, 'parents_stack': []} | wall-3463783_28850 | Account: +380508091700
+2023-01-12 20:38:46.272 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 10824, 'parents_stack': []} | wall-97941524_10808 | Account: +380508091700
+2023-01-12 20:38:49.729 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 150793, 'parents_stack': []} | wall-34015068_150765 | Account: +380508091700
+2023-01-12 20:38:53.123 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 21276, 'parents_stack': []} | wall-68210756_21255 | Account: +380508091700
+2023-01-12 20:38:56.531 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 1641, 'parents_stack': []} | wall-3794682_1629 | Account: +380508091700
+2023-01-12 20:39:00.094 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 14968, 'parents_stack': []} | wall-13545067_14956 | Account: +380508091700
+2023-01-12 20:39:03.539 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 124066, 'parents_stack': []} | wall-23852825_124044 | Account: +380508091700
+2023-01-12 20:39:06.917 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 34999, 'parents_stack': []} | wall-13512988_34980 | Account: +380508091700
+2023-01-12 20:39:10.313 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 50250, 'parents_stack': []} | wall-84194323_50219 | Account: +380508091700
+2023-01-12 20:39:13.620 | ERROR    | src.session:comment_posts:81 - [10] Internal server error: parent deleted | wall-741419748459 | Account: +380508091700
+2023-01-12 20:39:15.863 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 31410, 'parents_stack': []} | wall-4392642_31396 | Account: +380508091700
+2023-01-12 20:39:19.273 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 19711, 'parents_stack': []} | wall-98354539_19681 | Account: +380508091700
+2023-01-12 20:39:22.719 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 39131, 'parents_stack': []} | wall-74080445_39105 | Account: +380508091700
+2023-01-12 20:39:26.136 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 23807, 'parents_stack': []} | wall-68639080_23781 | Account: +380508091700
+2023-01-12 20:39:29.528 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 23492, 'parents_stack': []} | wall-24427522_23458 | Account: +380508091700
+2023-01-12 20:39:32.935 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 33953, 'parents_stack': []} | wall-67167990_33940 | Account: +380508091700
+2023-01-12 20:39:36.347 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 30097, 'parents_stack': []} | wall-52908535_30085 | Account: +380508091700
+2023-01-12 20:39:39.781 | SUCCESS  | src.session:comment_posts:78 - {'comment_id': 526694, 'parents_stack': []} | wall-52919929_526666 | Account: +380508091700
+2023-01-12 20:39:43.084 | ERROR    | src.session:comment_posts:81 - [10] Internal server error: parent deleted | wall-5289746435054 | Account: +380508091700

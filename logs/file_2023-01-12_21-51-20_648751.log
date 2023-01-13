@@ -1,0 +1,19 @@
+2023-01-12 21:51:33.168 | INFO     | src.session:__init__:42 - Auth completed (+380508091700)
+2023-01-12 21:51:34.663 | INFO     | src.session:__init__:42 - Auth completed (kos161rus@rambler.ru)
+2023-01-12 21:51:34.664 | WARNING  | __main__:do_job:11 - Session loaded!
+2023-01-12 21:51:34.874 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 35003, 'parents_stack': []} | wall-13512988_34980 | Account: +380508091700
+2023-01-12 21:51:35.174 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 35004, 'parents_stack': []} | wall-13512988_34980 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:38.074 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 31411, 'parents_stack': []} | wall-4392642_31396 | Account: +380508091700
+2023-01-12 21:51:38.348 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 31412, 'parents_stack': []} | wall-4392642_31396 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:41.278 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 19712, 'parents_stack': []} | wall-98354539_19681 | Account: +380508091700
+2023-01-12 21:51:41.577 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 19713, 'parents_stack': []} | wall-98354539_19681 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:44.503 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 39132, 'parents_stack': []} | wall-74080445_39105 | Account: +380508091700
+2023-01-12 21:51:44.787 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 39133, 'parents_stack': []} | wall-74080445_39105 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:47.691 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 23809, 'parents_stack': []} | wall-68639080_23781 | Account: +380508091700
+2023-01-12 21:51:48.033 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 23810, 'parents_stack': []} | wall-68639080_23781 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:50.898 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 33956, 'parents_stack': []} | wall-67167990_33940 | Account: +380508091700
+2023-01-12 21:51:51.249 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 33957, 'parents_stack': []} | wall-67167990_33940 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:54.151 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 30099, 'parents_stack': []} | wall-52908535_30085 | Account: +380508091700
+2023-01-12 21:51:54.447 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 30100, 'parents_stack': []} | wall-52908535_30085 | Account: kos161rus@rambler.ru
+2023-01-12 21:51:57.399 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 526696, 'parents_stack': []} | wall-52919929_526666 | Account: +380508091700
+2023-01-12 21:51:57.677 | SUCCESS  | src.session:comment_posts:81 - {'comment_id': 526697, 'parents_stack': []} | wall-52919929_526666 | Account: kos161rus@rambler.ru
