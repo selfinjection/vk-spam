@@ -18,17 +18,21 @@ def check_links(links):
         logger.debug(f'{link} post VALID')
         result.append(link)
     return result
-        
-def json_logger(session, link, message, file):
-    dictionary_json = dict()
-    session.dictionary[link] = message
-    dictionary_json.update({
-        session.login : {}
-        })
-    dictionary_json[session.login].update(session.dictionary)
-    if os.stat(os.path.abspath(file.name)).st_size != 0:
-        loaded_json = json.load(file)
-        loaded_json.update(dictionary_json)
-        dictionary_json = loaded_json
-        file.truncate(0)
-    json.dump(dictionary_json, file, indent=4, ensure_ascii=False)
+    
+timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+path_json = f'logs/succeed_post_info_{timestamp}.json'
+    
+def json_logger(session):
+    with threading.Lock():
+        if not os.path.exists(path_json):
+                open(path_json, "w", encoding='utf-8').close()
+                
+        with open(path_json, "r", encoding='utf-8') as json_file:
+                try:
+                    data = json.load(json_file)
+                except json.decoder.JSONDecodeError:
+                    data = {}
+                data[session.login] = session.dictionary
+
+        with open(path_json, "w", encoding='utf-8') as json_file:
+            json.dump(data, json_file, indent=4, ensure_ascii=False)
