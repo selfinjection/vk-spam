@@ -32,7 +32,7 @@ def json_logger(session):
                     data = json.load(json_file)
                 except json.decoder.JSONDecodeError:
                     data = {}
-                data[session.login] = session.dictionary
+                data[session.login or session.token] = session.dictionary
 
         with open(path_json, "w", encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=4, ensure_ascii=False)
