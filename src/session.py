@@ -2,12 +2,11 @@
 import vk_captchasolver as vc
 import sys
 from urllib.parse import urlparse
-from vk_api import VkApi, AuthError, ApiError
+from vk_api import VkApi, AuthError, ApiError, Captcha
 from loguru import logger
 import random
 import time
-import json
-import os
+from src.utils import json_logger
 from twocaptcha import TwoCaptcha
 ### TODO: make a captcha solver with AI (GOVNO CODE NO RABOTAET!)
 def captcha_handler(captcha):
@@ -34,19 +33,25 @@ def captcha_handler(captcha):
 ### TODO: improvement
 ### add a proxy
 class Session():
-    def __init__(self, login, password):
+    def __init__(self, login=None, password=None, token=None):
         self.log = logger
         self.log.add("logs/file_{time}.log")
         self.login = login
+        self.token = token
         self.dictionary = {}
         try:
-            session = VkApi(login, password, captcha_handler=captcha_handler)
-            session.auth()
-            self.connected = True
+            if token:
+                session = VkApi(token=token, captcha_handler=captcha_handler)
+                self.connected = True
+                self.log.info(f'Auth completed (token: {self.token[:11]})')
+            else:
+                session = VkApi(login, password, captcha_handler=captcha_handler)
+                session.auth()
+                self.connected = True
+                self.log.info(f'Auth completed (login: {self.login})')
         except AuthError as e:
-             logger.error(f'Authentication failed: {e} | Account: {self.login}')
+             logger.error(f'Authentication failed: {e} | Account: {self.login or self.token[:11]}')
              sys.exit()
-        self.log.info(f'Auth completed ({self.login})')
         self.session = session.get_api()
 
     def __str__(self):
@@ -74,37 +79,24 @@ class Session():
         time.sleep(3)
         try:
             response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
-            self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login}')
+            self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
             return response
         except ApiError as e:
-            self.log.error(f'{e} | wall{owner_id + post_id} | Account: {self.login}')
+            self.log.error(f'{e} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
             return e
-
+            
     def comment_posts(self, links, messages):
-        spaces = 4
-        dictionary_json = {}
-        path_json = f'logs/succeed_post_info_{time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())}.json'
-        with open(path_json, 'a+', encoding= 'utf-8') as log_json:
-            for lnk in links:
-                owner_id, post_id = urlparse(lnk).path[5:].split('_')
-                try:
-                    message = messages[random.randint(0, len(messages) - 1)]
-                    response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
-                    self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login}')
-                    self.dictionary[lnk] = message
-                    dictionary_json.update({
-                        self.login : {}
-                        })
-                    dictionary_json[self.login].update(self.dictionary)
-                    time.sleep(3)
-                except ApiError as e:
-                    self.log.error(f'{e} | wall{owner_id + post_id} | Account: {self.login}')
-                    pass
-            if os.stat(path_json).st_size != 0:
-                loaded_json = json.load(log_json)
-                loaded_json.update(dictionary_json)
-                dictionary_json = loaded_json
-                log_json.truncate(0)
-            log_json.write(json.dumps(dictionary_json, indent=spaces, ensure_ascii=False))
-
-
+        for lnk in links:
+            owner_id, post_id = urlparse(lnk).path[5:].split('_')
+            message = messages[random.randint(0, len(messages) - 1)]
+            try:
+                response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
+                self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
+                self.dictionary[lnk] = message
+                time.sleep(3)
+            except Captcha as e:
+                captcha_handler(e)
+            except ApiError as e:
+                self.log.error(f'{e} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
+                pass
+        json_logger(self)
