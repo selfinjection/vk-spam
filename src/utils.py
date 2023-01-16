@@ -25,10 +25,10 @@ def check_links(links, threads=1):
         result.append(response.url)
     return result
     
-timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
-path_json = f'logs/succeed_post_info_{timestamp}.json'
     
-def json_logger(session):
+def json_logger(session):    
+    timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+    path_json = f'logs/succeed_post_info_{timestamp}.json'
     with threading.Lock():
         if not os.path.exists(path_json):
                 open(path_json, "w", encoding='utf-8').close()
