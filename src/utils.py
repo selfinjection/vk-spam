@@ -25,7 +25,7 @@ def check_links(links, threads=1):
         result.append(response.url)
     return result
     
-    
+
 def json_logger(session):    
     timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
     path_json = f'logs/succeed_post_info_{timestamp}.json'

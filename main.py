@@ -19,16 +19,9 @@ def main():
 
         sessions = []
         for ac in accounts:
-            if len(ac) == 1:
-                login, password = ac[0], ac[1]
-                a = session.Session(login, password)
-            elif len(ac) == 1: # If only token
-                token = ac[0]
-                a = session.Session(token=token)
-
-            a = session.Session(login, password, token)
+            a = session.Session(token=ac[0]) if len(ac) == 1 else session.Session(ac[0], ac[1])
             sessions.append(Thread(target=a.comment_posts, args=(links, msg)))
-      
+            
         do_job(sessions)
 
 

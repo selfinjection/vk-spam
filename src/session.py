@@ -88,8 +88,8 @@ class Session():
     def comment_posts(self, links, messages):
         for lnk in links:
             owner_id, post_id = urlparse(lnk).path[5:].split('_')
+            message = messages[random.randint(0, len(messages) - 1)]
             try:
-                message = messages[random.randint(0, len(messages) - 1)]
                 response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
                 self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
                 self.dictionary[lnk] = message
