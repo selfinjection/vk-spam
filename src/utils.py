@@ -11,8 +11,7 @@ import time
 
 def check_links(links, threads=1):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
-    result = []
-    responses = []
+    result, responses = [], []
     for link in links:
         responses.append(requests.get(link))
         time.sleep(0.5)
