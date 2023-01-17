@@ -86,11 +86,13 @@ class Session():
             return e
             
     def comment_posts(self, links, messages):
+        valid_counter = 0
         for lnk in links:
             owner_id, post_id = urlparse(lnk).path[5:].split('_')
             message = messages[random.randint(0, len(messages) - 1)]
             try:
                 response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
+                valid_counter += 1
                 self.log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
                 self.dictionary[lnk] = message
                 time.sleep(3)
@@ -99,4 +101,4 @@ class Session():
             except ApiError as e:
                 self.log.error(f'{e} | wall{owner_id + "_" + post_id} | Account: {self.login or self.token[:11]}')
                 pass
-        json_logger(self)
+        json_logger(self, valid_counter)
