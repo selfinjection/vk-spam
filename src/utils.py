@@ -26,7 +26,7 @@ def check_links(links, threads=1):
     return result
     
 
-def json_logger(session):    
+def json_logger(session, counter):    
     timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
     path_json = f'logs/succeed_post_info_{timestamp}.json'
     with threading.Lock():
@@ -38,7 +38,7 @@ def json_logger(session):
                     data = json.load(json_file)
                 except json.decoder.JSONDecodeError:
                     data = {}
-                data[session.login or session.token] = session.dictionary
+                data[session.login or session.token] = [session.dictionary, counter]
 
         with open(path_json, "w", encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=4, ensure_ascii=False)
