@@ -14,6 +14,7 @@ def check_links(links, threads=1):
     result, responses = [], []
     for link in links:
         responses.append(requests.get(link))
+        logger.debug(f'{link} loaded...')
         time.sleep(0.5)
     
     for response in responses:
