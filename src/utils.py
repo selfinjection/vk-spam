@@ -27,9 +27,11 @@ def check_links(links, threads=1):
     return result
     
 timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+path_json = f'logs/succeed_post_info_{timestamp}.json'
                           
-def json_logger(session):    
-    path_json = f'logs/succeed_post_info_{timestamp}.json'
+def json_logger(session):
+    posts = len(session.dictionary.items()) - 1
+    logger.info(f'{posts} posts have been done (Account: {session.credential})')
     with threading.Lock():
         if not os.path.exists(path_json):
                 open(path_json, "w", encoding='utf-8').close()
@@ -39,7 +41,31 @@ def json_logger(session):
                     data = json.load(json_file)
                 except json.decoder.JSONDecodeError:
                     data = {}
-                data[session.login or session.token] = [session.dictionary, counter]
+                if 'TOTAL' not in data:
+                    data['TOTAL'] = 0
+                data['TOTAL'] += posts
+                data[session.credential] = session.dictionary
+                data[session.credential]['posts'] = posts
 
         with open(path_json, "w", encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=4, ensure_ascii=False)
+
+# TODO: call total_posts_log() after all threads finished execution
+'''
+def total_posts_log():
+    with open(path_json, "r", encoding='utf-8') as json_file:
+        data = json.load(json_file)
+        total = data['TOTAL']
+        logger.info(f'TOTAL: {total} posts')
+        
+def check_alive_threads():
+    while True: 
+        alive_threads = [t for t in threading.enumerate() if t.is_alive() and t != threading.current_thread()]
+        if len(alive_threads) <= 1:
+            if len(alive_threads) == 1:
+                alive_threads[0].join()
+            total_posts_log()
+            break
+        print('checking...')
+        time.sleep(1)
+'''
