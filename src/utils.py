@@ -14,6 +14,7 @@ def check_links(links, threads=1):
     result, responses = [], []
     for link in links:
         responses.append(requests.get(link))
+        logger.debug(f'{link} loaded...')
         time.sleep(0.5)
     
     for response in responses:
@@ -38,7 +39,7 @@ def json_logger(session):
                     data = json.load(json_file)
                 except json.decoder.JSONDecodeError:
                     data = {}
-                data[session.credential] = session.dictionary
+                data[session.login or session.token] = [session.dictionary, counter]
 
         with open(path_json, "w", encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=4, ensure_ascii=False)
