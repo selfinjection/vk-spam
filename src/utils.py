@@ -38,7 +38,6 @@ def change_letter(message):
         change_or_not = random.choices([True, False], cum_weights=[97/100, 1])
         if change_or_not[0]:
             message = message[:letter_index] + chr(lat_code) + message[letter_index+1:]
-            print(letter_index)
     return message
 
 def json_logger(session):
