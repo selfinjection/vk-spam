@@ -12,7 +12,6 @@ from twocaptcha import TwoCaptcha
 
 log.add("logs/file_{time}.log")
 
-### TODO: make a captcha solver with AI (GOVNO CODE NO RABOTAET!)
 def captcha_handler(captcha):
     '''
     Working 50%50
@@ -34,25 +33,20 @@ def captcha_handler(captcha):
     key = input('Enter captcha code {}: '.format(captcha.get_url())).strip()
     return captcha.try_again(key)
 
-### TODO: improvement
-### add a proxy
+
 class Session():
     def __init__(self, login=None, password=None, token=None):
+
         self.log_lock = threading.Lock()
         self.credential = login or token[:11]
         self.dictionary = {'posts' : 0}
         try:
             if token:
                 session = VkApi(token=token, captcha_handler=captcha_handler)
-                self.connected = True
-                with self.log_lock:
-                    log.info(f'Auth completed (token: {self.credential})')
-            else:
-                session = VkApi(login, password, captcha_handler=captcha_handler)
-                session.auth()
-                self.connected = True
-                with self.log_lock:
-                    log.info(f'Auth completed (login: {self.credential})')
+            session = VkApi(login, password, captcha_handler=captcha_handler)
+            session.auth()
+            with self.log_lock:
+                log.info(f'Auth completed | Accounts: {self.credential})')
         except AuthError as e:
             with self.log_lock:
                 log.error(f'Authentication failed: {e} | Account: {self.credential}')
@@ -62,51 +56,24 @@ class Session():
     def __str__(self):
         return f'{self.session}'
 
-    def is_connected(self):
-        return self.connected
-
     def get_session(self):
         return self.session
-
-    # TODO: improve error handling 
-    def like_post(self, owner_id: int, item_id: int):
-        response = self.session.likes.add(type='post', owner_id=owner_id, item_id=item_id)
-
-        if not response:
-            raise SystemExit(f'wrong owner_id or/and item_id')
-        return response
-
-    # TODO: improve error handling
-    # После успешного выполнения возвращает идентификатор добавленного 
-    # комментария в поле comment_id (integer) и 
-    # массив идентификаторов родительских комментариев в поле parent_stack (array).
-    def comment_post(self, owner_id: int, post_id: int, message: str):
-        time.sleep(3)
-        try:
-            response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
-            with self.log_lock:
-                log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.credential}')
-            return response
-        except Captcha as e:
-                captcha_handler(e)
-        except ApiError as e:
-            with self.log_lock:
-                log.error(f'{e} | wall{owner_id + "_" + post_id} | Account: {self.credential}')
-            return e
-            
+  
     def comment_posts(self, links, messages):
+        vk_url = '{} | wall{}_{} | Account: {}'
         for lnk in links:
             owner_id, post_id = urlparse(lnk).path[5:].split('_')
             message = messages[random.randint(0, len(messages) - 1)]
             try:
                 response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
                 with self.log_lock:
-                    log.success(f'{response} | wall{owner_id + "_" + post_id} | Account: {self.credential}')
+                    log.success(vk_url.format(response, owner_id, post_id, self.credential))
                 self.dictionary[lnk] = message
                 code_10_error = 0
-                # time.sleep(3)
+
             except Captcha as e:
                 captcha_handler(e)
+
             except ApiError as e:
                 if e.code == 10:
                     code_10_error += 1
@@ -114,8 +81,8 @@ class Session():
                         with self.log_lock:
                             log.warning('The account has probably reached the post limit')
                         break
-                
                 with self.log_lock:
-                    log.error(f'{e} | wall{owner_id + "_" + post_id} | Account: {self.credential}')
+                    log.error(vk_url.format(response, owner_id, post_id, self.credential))
                 pass
+            
         json_logger(self)
