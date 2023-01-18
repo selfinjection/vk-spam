@@ -43,7 +43,8 @@ class Session():
         try:
             if token:
                 session = VkApi(token=token, captcha_handler=captcha_handler)
-            session = VkApi(login, password, captcha_handler=captcha_handler)
+            else:
+                session = VkApi(login, password, captcha_handler=captcha_handler)
             session.auth()
             with self.log_lock:
                 log.info(f'Auth completed | Accounts: {self.credential})')
@@ -84,5 +85,5 @@ class Session():
                 with self.log_lock:
                     log.error(vk_url.format(response, owner_id, post_id, self.credential))
                 pass
-            
+
         json_logger(self)
