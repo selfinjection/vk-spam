@@ -11,9 +11,11 @@ def do_job(sessions):
         s.start()
 
 def main():
-    with open('creds/links.txt', encoding="utf-8") as lnk, open('creds/messages.txt', encoding="utf-8") as msg, open('creds/accounts.txt') as accounts:
-        lnk, msg, accounts = lnk.read().split('\n'), msg.read().split('\n'), [ac.split(':') for ac in accounts.read().split('\n')]
+    links = []
+    with open('creds/links.txt', encoding="utf-8") as lnk_file, open('creds/messages.txt', encoding="utf-8") as msg, open('creds/accounts.txt') as accounts:
+        lnk, msg, accounts = lnk_file.read().split('\n'), msg.read().split('\n'), [ac.split(':') for ac in accounts.read().split('\n')]
         links = utils.check_links(lnk)
+        
 
         sessions = []
         for ac in accounts:
@@ -21,6 +23,10 @@ def main():
             sessions.append(Thread(target=a.comment_posts, args=(links, msg)))
             
         do_job(sessions)
+        
+    with open('creds/links.txt', 'w', encoding="utf-8") as lnk_file: # leave only valid links
+        lnk_file.writelines('\n'.join(link for link in links))
+        
 
 
 if __name__ == '__main__':

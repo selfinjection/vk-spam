@@ -7,7 +7,7 @@ from loguru import logger as log
 import random
 import time
 import threading
-from src.utils import json_logger
+from src.utils import json_logger, change_letter
 from twocaptcha import TwoCaptcha
 
 log.add("logs/file_{time}.log")
@@ -45,7 +45,7 @@ class Session():
                 session = VkApi(token=token, captcha_handler=captcha_handler)
             else:
                 session = VkApi(login, password, captcha_handler=captcha_handler)
-            session.auth()
+                session.auth()
             with self.log_lock:
                 log.info(f'Auth completed | Accounts: {self.credential}')
         except AuthError as e:
@@ -61,14 +61,14 @@ class Session():
         return self.session
   
     def comment_posts(self, links, messages):
-        vk_url = '{} | wall{}_{} | Account: {}'
+        vk_url = '{} | {} | Account: {}'
         for lnk in links:
             owner_id, post_id = urlparse(lnk).path[5:].split('_')
-            message = messages[random.randint(0, len(messages) - 1)]
+            message = change_letter(random.choice(messages))
             try:
                 response = self.session.wall.createComment(owner_id=owner_id, post_id=post_id, message=message)
                 with self.log_lock:
-                    log.success(vk_url.format(response, owner_id, post_id, self.credential))
+                    log.success(vk_url.format(response, lnk, self.credential))
                 self.dictionary[lnk] = message
                 code_10_error = 0
 

@@ -1,12 +1,9 @@
 import requests
-import time
-import json
-import os
+import time, os, json, random
 import threading
 from lxml.html import fromstring
 from loguru import logger
 import concurrent.futures
-import time
 
 timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
 path_json = f'logs/succeed_post_info_{timestamp}.json'
@@ -21,14 +18,28 @@ def check_links(links, threads=1):
         time.sleep(0.5)
     
     for response in responses:
+        url = response.url.replace('m.', '')
         html = fromstring(response.content)
         if html.findtext('.//title') in invalid_titles:
-            logger.debug(f'{response.url} post DELETED')
+            logger.debug(f'{url} post DELETED')
             continue
-        logger.debug(f'{response.url} post VALID')
-        result.append(response.url)
+        logger.debug(f'{url} post VALID')
+        result.append(url)
     return result
-    
+
+def change_letter(message):
+    cyrillic_codes = [1072, 1086, 1077] # cyrillic "а, о, е"
+    latin_codes = [97, 111, 101] # latin "а, о, е"
+    letter_index = [i for i, ltr in enumerate(message) if ord(ltr) in cyrillic_codes]
+    if letter_index:
+        letter_index = random.choice(letter_index)
+        cyr_code = ord(message[letter_index])
+        lat_code = latin_codes[cyrillic_codes.index(cyr_code)]
+        change_or_not = random.choices([True, False], cum_weights=[97/100, 1])
+        if change_or_not[0]:
+            message = message[:letter_index] + chr(lat_code) + message[letter_index+1:]
+            print(letter_index)
+    return message
 
 def json_logger(session):
     posts = len(session.dictionary.items()) - 1
