@@ -3,9 +3,7 @@ from loguru import logger
 from threading import Thread, Barrier
 
 # THREADS = 5
-
-import concurrent.futures
-
+# from concurrent.futures import ThreadPoolExecutor
 
 def do_job(sessions):
     logger.warning('Session loaded!')
@@ -30,40 +28,17 @@ if __name__ == '__main__':
 
 
 '''
-import concurrent.futures
-import time
-import requests
+from concurrent.futures import ThreadPoolExecutor
 
-urls = [
-    'http://example.com/1',
-    'http://example.com/2',
-    'http://example.com/3',
-    # ...
-]
+def worker(arg1, arg2):
+    result = do_something(arg1, arg2)
+    return result
 
+with ThreadPoolExecutor() as executor:
+    results = [executor.submit(worker, arg1, arg2) for arg1,arg2 in zip(arg1_list,arg2_list)]
 
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    results = list(executor.map(requests.get, urls))
-    for response in results:
-        print(response.status_code)
-'''
+    for f in concurrent.futures.as_completed(results):
+        result = f.result()
+        # process the result
 
-
-
-'''
-import concurrent.futures
-
-class MyObject:
-    def __init__(self, value):
-        self.value = value
-
-    def multiply(self, factor):
-        return self.value * factor
-
-
-objects_args = [(10, 2), (20, 3), (30, 4)]
-
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    results = list(executor.map(lambda args: MyObject(*args).multiply(), objects_args))
-    print(results)  # prints [20, 60, 120]
 '''

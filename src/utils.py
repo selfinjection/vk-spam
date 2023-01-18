@@ -8,6 +8,9 @@ from loguru import logger
 import concurrent.futures
 import time
 
+timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+path_json = f'logs/succeed_post_info_{timestamp}.json'
+
 
 def check_links(links, threads=1):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
@@ -26,9 +29,7 @@ def check_links(links, threads=1):
         result.append(response.url)
     return result
     
-timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
-path_json = f'logs/succeed_post_info_{timestamp}.json'
-                          
+
 def json_logger(session):
     posts = len(session.dictionary.items()) - 1
     logger.info(f'{posts} posts have been done (Account: {session.credential})')
@@ -41,9 +42,9 @@ def json_logger(session):
                     data = json.load(json_file)
                 except json.decoder.JSONDecodeError:
                     data = {}
-                if 'TOTAL' not in data:
-                    data['TOTAL'] = 0
-                data['TOTAL'] += posts
+                if 'total' not in data:
+                    data['total'] = 0
+                data['total'] += posts
                 data[session.credential] = session.dictionary
                 data[session.credential]['posts'] = posts
 
