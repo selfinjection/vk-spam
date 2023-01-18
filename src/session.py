@@ -47,7 +47,7 @@ class Session():
                 session = VkApi(login, password, captcha_handler=captcha_handler)
             session.auth()
             with self.log_lock:
-                log.info(f'Auth completed | Accounts: {self.credential})')
+                log.info(f'Auth completed | Accounts: {self.credential}')
         except AuthError as e:
             with self.log_lock:
                 log.error(f'Authentication failed: {e} | Account: {self.credential}')
