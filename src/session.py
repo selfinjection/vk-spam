@@ -31,8 +31,7 @@ def captcha_handler(captcha):
     '''
     #solver = TwoCaptcha('19f9aeb567e6b68b677a353c23db159b')
     #key = solver.normal(captcha.get_url())
-    key = input('Enter captcha code {}: '.format(captcha.get_url())).strip()
-    print('\033[F\033[K')
+    key = input('\nEnter captcha code {}: '.format(captcha.get_url())).strip()
     return captcha.try_again(key)
 
 
