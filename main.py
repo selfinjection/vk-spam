@@ -30,20 +30,3 @@ def main():
 
 if __name__ == '__main__':
    main()
-
-
-'''
-from concurrent.futures import ThreadPoolExecutor
-
-def worker(arg1, arg2):
-    result = do_something(arg1, arg2)
-    return result
-
-with ThreadPoolExecutor() as executor:
-    results = [executor.submit(worker, arg1, arg2) for arg1,arg2 in zip(arg1_list,arg2_list)]
-
-    for f in concurrent.futures.as_completed(results):
-        result = f.result()
-        # process the result
-
-'''
