@@ -9,7 +9,7 @@ import os
 import threading
 from src.utils import change_letter
 from twocaptcha import TwoCaptcha
-from tqdm import tqdm
+from tqdm.asyncio import tqdm
 
 log.add("logs/file_{time}.log")
 
@@ -29,10 +29,9 @@ def captcha_handler(captcha):
     time.sleep(1.5)
     logger.info(f"Captacha detected. Solving... {captcha.get_url()}, {key}")
     '''
-    #solver = TwoCaptcha('19f9aeb567e6b68b677a353c23db159b')
-    #key = solver.normal(captcha.get_url())
-    key = input('\nEnter captcha code {}: '.format(captcha.get_url())).strip()
-    return captcha.try_again(key)
+    solver = TwoCaptcha('19f9aeb567e6b68b677a353c23db159b')
+    key = solver.normal(captcha.get_url())
+    return captcha.try_again(key['code'])
 
 
 class Session():

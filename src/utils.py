@@ -4,20 +4,28 @@ import threading
 from lxml.html import fromstring
 from loguru import logger
 import concurrent.futures
-from tqdm import tqdm
+from tqdm.asyncio import tqdm
 import aiohttp
 import asyncio
 
 async def check_links_async(links):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
     result, html = [], []
+    
     async with aiohttp.ClientSession() as session:
-        for link in tqdm(links, ncols=90, desc='Loading links'):
-            response = await session.get(link)
-            url = str(response.url).replace('m.', '')
-            #html = fromstring(await response.text())
-            html.append([await response.text(), url])
-            await asyncio.sleep(0.03)
+        tasks = []
+        sem = asyncio.Semaphore(10)
+        for link in tqdm(links, ncols=90, desc='Links'):
+            await sem.acquire()
+            task = asyncio.create_task(session.get(link))
+            task.add_done_callback(lambda _: sem.release())
+            tasks.append(task)
+            await asyncio.sleep(0.1)
+            
+        for fut in asyncio.as_completed(tasks):
+            response = await fut
+            text = await response.text()
+            html.append([text, str(response.url).replace('m.', '')])
 
     for content, url in html:
         invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
