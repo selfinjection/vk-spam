@@ -4,27 +4,28 @@ import threading
 from lxml.html import fromstring
 from loguru import logger
 import concurrent.futures
+from tqdm import tqdm
+import aiohttp
+import asyncio
 
-timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
-path_json = f'logs/succeed_post_info_{timestamp}.json'
-
-
-def check_links(links, threads=1):
+async def check_links_async(links):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
-    result, responses = [], []
-    for link in links:
-        responses.append(requests.get(link))
-        logger.debug(f'{link} loaded...')
-        time.sleep(0.5)
-    
-    for response in responses:
-        url = response.url.replace('m.', '')
-        html = fromstring(response.content)
-        if html.findtext('.//title') in invalid_titles:
-            logger.debug(f'{url} post DELETED')
-            continue
-        logger.debug(f'{url} post VALID')
+    result, html = [], []
+    async with aiohttp.ClientSession() as session:
+        for link in tqdm(links, ncols=90, desc='Loading links'):
+            response = await session.get(link)
+            url = str(response.url).replace('m.', '')
+            #html = fromstring(await response.text())
+            html.append([await response.text(), url])
+            await asyncio.sleep(0.03)
+
+    for content, url in html:
+        invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
+        c = fromstring(content)
+        if c.findtext('.//title') in invalid_titles:
+                continue
         result.append(url)
+    print(f"Valid posts: {len(result)}\n{'*'*90}")
     return result
 
 def change_letter(message):
@@ -40,27 +41,20 @@ def change_letter(message):
             message = message[:letter_index] + chr(lat_code) + message[letter_index+1:]
     return message
 
-def json_logger(session):
-    posts = len(session.dictionary.items()) - 1
-    logger.info(f'{posts} posts have been done (Account: {session.credential})')
-    with threading.Lock():
-        if not os.path.exists(path_json):
-                open(path_json, "w", encoding='utf-8').close()
-                
-        with open(path_json, "r", encoding='utf-8') as json_file:
-                try:
-                    data = json.load(json_file)
-                except json.decoder.JSONDecodeError:
-                    data = {}
-                if 'total' not in data:
-                    data['total'] = 0
-                data['total'] += posts
-                data[session.credential] = session.dictionary
-                data[session.credential]['posts'] = posts
+def log_json(dicts):
+    timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+    path_json = f'logs/succeed_post_info_{timestamp}.json'
 
-        with open(path_json, "w", encoding='utf-8') as json_file:
-            json.dump(data, json_file, indent=4, ensure_ascii=False)
+    counter = 0
+    result = {}
 
+    for d in dicts:
+        result[d['credentials']] = d['job_result']
+        counter += len(d['job_result'])
+    result['total_requests'] = counter
+    with open(path_json, 'w', encoding='utf-8') as file:
+        json.dump(result, file, indent=4, ensure_ascii=False)
+        
 # TODO: call total_posts_log() after all threads finished execution
 '''
 def total_posts_log():
