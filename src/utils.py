@@ -1,12 +1,14 @@
 import requests
 import time, os, json, random
-import threading
 from lxml.html import fromstring
 from loguru import logger
-import concurrent.futures
+from urllib.parse import urlparse
+from src.screenshot import Screenshot
 from tqdm.asyncio import tqdm
 import aiohttp
 import asyncio
+from selenium  import webdriver
+from selenium.webdriver.common.by import By
 
 async def check_links_async(links):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
@@ -62,23 +64,21 @@ def log_json(dicts):
     result['total_requests'] = counter
     with open(path_json, 'w', encoding='utf-8') as file:
         json.dump(result, file, indent=4, ensure_ascii=False)
-        
-# TODO: call total_posts_log() after all threads finished execution
-'''
-def total_posts_log():
-    with open(path_json, "r", encoding='utf-8') as json_file:
-        data = json.load(json_file)
-        total = data['TOTAL']
-        logger.info(f'TOTAL: {total} posts')
-        
-def check_alive_threads():
-    while True: 
-        alive_threads = [t for t in threading.enumerate() if t.is_alive() and t != threading.current_thread()]
-        if len(alive_threads) <= 1:
-            if len(alive_threads) == 1:
-                alive_threads[0].join()
-            total_posts_log()
-            break
-        print('checking...')
-        time.sleep(1)
-'''
+
+# Concept
+def get_screenshots(links):
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    ob = Screenshot()
+    for link in links:
+        driver.get(link)
+        owner_id, post_id = urlparse(link).path[5:].split('_')
+        driver.implicitly_wait(3)
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        driver.execute_script("window.scrollTo(0, 0)")
+        box_wrap = driver.find_element(By.ID, 'box_layer_wrap')
+        box_bg = driver.find_element(By.ID, 'box_layer_bg')
+        driver.execute_script("arguments[0].remove();", box_wrap)
+        driver.execute_script("arguments[0].remove();", box_bg)
+        img_url = ob.full_Screenshot(driver, save_path=r'./imgs', image_name=f'wall{owner_id}_{post_id}.png', multi_images=True)
+    driver.close()

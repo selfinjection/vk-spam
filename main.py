@@ -1,6 +1,6 @@
 from src import session, utils
 from loguru import logger
-from threading import Thread, Barrier
+from urllib.parse import urlparse
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, wait
 import asyncio
@@ -22,7 +22,7 @@ def main():
         with ThreadPoolExecutor(max_workers=5) as executor:
             sessions = list(tqdm(executor.map(create_session, accounts), ncols=90, desc='Accounts auth'))
         
-        links = loop.run_until_complete(utils.check_links_async(lnk))
+        links = loop.run_until_complete(urlparse(lnk).path[5:].split('_')(lnk))
         
         with ThreadPoolExecutor(max_workers=THREADS) as executor:
             futures = [executor.submit(worker, s, links, msg) for s in sessions]
@@ -32,6 +32,6 @@ def main():
         lnk_file.writelines('\n'.join(link for link in links))
 
     utils.log_json([future.result() for future in done])
-
+    utils.get_screenshots(links)
 if __name__ == '__main__':
    main()

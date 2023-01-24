@@ -29,9 +29,10 @@ def captcha_handler(captcha):
     time.sleep(1.5)
     logger.info(f"Captacha detected. Solving... {captcha.get_url()}, {key}")
     '''
-    solver = TwoCaptcha('19f9aeb567e6b68b677a353c23db159b')
-    key = solver.normal(captcha.get_url())
-    return captcha.try_again(key['code'])
+    #solver = TwoCaptcha('19f9aeb567e6b68b677a353c23db159b')
+    #key = solver.normal(captcha.get_url())
+    key = input(f'{captcha.get_url()}: ')
+    return captcha.try_again(key)
 
 
 class Session():
