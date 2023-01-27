@@ -10,7 +10,8 @@ venv.bak/
 logs
 src/__pycache__
 vk_config.v2.json
-creds
+creds/
+imgs/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

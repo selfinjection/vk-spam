@@ -1,72 +1,84 @@
 import requests
-import time
-import json
-import os
-import threading
+import time, os, json, random
 from lxml.html import fromstring
 from loguru import logger
-import concurrent.futures
-import time
+from urllib.parse import urlparse
+from src.screenshot import Screenshot
+from tqdm.asyncio import tqdm
+import aiohttp
+import asyncio
+from selenium  import webdriver
+from selenium.webdriver.common.by import By
 
-timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
-path_json = f'logs/succeed_post_info_{timestamp}.json'
-
-
-def check_links(links, threads=1):
+async def check_links_async(links):
     invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
-    result, responses = [], []
-    for link in links:
-        responses.append(requests.get(link))
-        logger.debug(f'{link} loaded...')
-        time.sleep(0.5)
+    result, html = [], []
     
-    for response in responses:
-        html = fromstring(response.content)
-        if html.findtext('.//title') in invalid_titles:
-            logger.debug(f'{response.url} post DELETED')
-            continue
-        logger.debug(f'{response.url} post VALID')
-        result.append(response.url)
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        sem = asyncio.Semaphore(10)
+        for link in tqdm(links, ncols=90, desc='Links'):
+            await sem.acquire()
+            task = asyncio.create_task(session.get(link))
+            task.add_done_callback(lambda _: sem.release())
+            tasks.append(task)
+            await asyncio.sleep(0.1)
+            
+        for fut in asyncio.as_completed(tasks):
+            response = await fut
+            text = await response.text()
+            html.append([text, str(response.url).replace('m.', '')])
+
+    for content, url in html:
+        invalid_titles = ['Post deleted | VK', 'Запись удалена', 'Error | VK']
+        c = fromstring(content)
+        if c.findtext('.//title') in invalid_titles:
+                continue
+        result.append(url)
+    print(f"Valid posts: {len(result)}\n{'*'*90}")
     return result
-    
 
-def json_logger(session):
-    posts = len(session.dictionary.items()) - 1
-    logger.info(f'{posts} posts have been done (Account: {session.credential})')
-    with threading.Lock():
-        if not os.path.exists(path_json):
-                open(path_json, "w", encoding='utf-8').close()
-                
-        with open(path_json, "r", encoding='utf-8') as json_file:
-                try:
-                    data = json.load(json_file)
-                except json.decoder.JSONDecodeError:
-                    data = {}
-                if 'total' not in data:
-                    data['total'] = 0
-                data['total'] += posts
-                data[session.credential] = session.dictionary
-                data[session.credential]['posts'] = posts
+def change_letter(message):
+    cyrillic_codes = [1072, 1086, 1077] # cyrillic "а, о, е"
+    latin_codes = [97, 111, 101] # latin "а, о, е"
+    letter_index = [i for i, ltr in enumerate(message) if ord(ltr) in cyrillic_codes]
+    if letter_index:
+        letter_index = random.choice(letter_index)
+        cyr_code = ord(message[letter_index])
+        lat_code = latin_codes[cyrillic_codes.index(cyr_code)]
+        change_or_not = random.choices([True, False], cum_weights=[97/100, 1])
+        if change_or_not[0]:
+            message = message[:letter_index] + chr(lat_code) + message[letter_index+1:]
+    return message
 
-        with open(path_json, "w", encoding='utf-8') as json_file:
-            json.dump(data, json_file, indent=4, ensure_ascii=False)
+def log_json(dicts):
+    timestamp = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+    path_json = f'logs/succeed_post_info_{timestamp}.json'
 
-# TODO: call total_posts_log() after all threads finished execution
-'''
-def total_posts_log():
-    with open(path_json, "r", encoding='utf-8') as json_file:
-        data = json.load(json_file)
-        total = data['TOTAL']
-        logger.info(f'TOTAL: {total} posts')
-        
-def check_alive_threads():
-    while True: 
-        alive_threads = [t for t in threading.enumerate() if t.is_alive() and t != threading.current_thread()]
-        if len(alive_threads) <= 1:
-            if len(alive_threads) == 1:
-                alive_threads[0].join()
-            total_posts_log()
-            break
-        print('checking...')
-        time.sleep(1)
-'''
+    counter = 0
+    result = {}
+
+    for d in dicts:
+        result[d['credentials']] = d['job_result']
+        counter += len(d['job_result'])
+    result['total_requests'] = counter
+    with open(path_json, 'w', encoding='utf-8') as file:
+        json.dump(result, file, indent=4, ensure_ascii=False)
+
+# Concept
+def get_screenshots(links):
+    driver = webdriver.Chrome()
+    driver.maximize_window()
+    ob = Screenshot()
+    for link in links:
+        driver.get(link)
+        owner_id, post_id = urlparse(link).path[5:].split('_')
+        driver.implicitly_wait(3)
+        driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        driver.execute_script("window.scrollTo(0, 0)")
+        box_wrap = driver.find_element(By.ID, 'box_layer_wrap')
+        box_bg = driver.find_element(By.ID, 'box_layer_bg')
+        driver.execute_script("arguments[0].remove();", box_wrap)
+        driver.execute_script("arguments[0].remove();", box_bg)
+        img_url = ob.full_Screenshot(driver, save_path=r'./imgs', image_name=f'wall{owner_id}_{post_id}.png', multi_images=True)
+    driver.close()

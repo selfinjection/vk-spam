@@ -1,5 +1,7 @@
-import vk_captchasolver as vc
+from selenium import webdriver
 
-# captcha = vc.solve(sid=74838345480543) #Solve by sid and s
-# captcha = vc.solve(image='captcha.png') #Solve by sid only
-# print(captcha)
+driver = webdriver.Chrome()
+
+driver.get("http://selenium.dev")
+
+driver.quit()
