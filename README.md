@@ -11,4 +11,5 @@
  4. ~~replace with a regular expression wall_link_parse in src/session_utils~~
 
 # Ideas:
-
+## OPTIMIZATION IN FUTURE
+1. Add link caching with timeout (telegram bot) 
