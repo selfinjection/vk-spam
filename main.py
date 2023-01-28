@@ -11,6 +11,7 @@ def worker(session: session.Session, links, msg):
     return result
 
 def create_session(ac):
+    print(ac)
     return session.Session(token=ac[0]) if len(ac) == 1 else session.Session(ac[0], ac[1])
 
 def main():
@@ -21,7 +22,7 @@ def main():
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             sessions = list(tqdm(executor.map(create_session, accounts), ncols=90, desc='Accounts auth'))
-        
+
         links = loop.run_until_complete(utils.check_links_async(lnk))
         
         with ThreadPoolExecutor(max_workers=THREADS) as executor:
@@ -33,5 +34,6 @@ def main():
 
     utils.log_json([future.result() for future in done])
     utils.get_screenshots(links)
+
 if __name__ == '__main__':
    main()

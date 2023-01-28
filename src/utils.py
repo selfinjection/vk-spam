@@ -1,7 +1,5 @@
-import requests
 import time, os, json, random
 from lxml.html import fromstring
-from loguru import logger
 from urllib.parse import urlparse
 from src.screenshot import Screenshot
 from tqdm.asyncio import tqdm
@@ -22,7 +20,7 @@ async def check_links_async(links):
             task = asyncio.create_task(session.get(link))
             task.add_done_callback(lambda _: sem.release())
             tasks.append(task)
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.5)
             
         for fut in asyncio.as_completed(tasks):
             response = await fut
@@ -36,6 +34,7 @@ async def check_links_async(links):
                 continue
         result.append(url)
     print(f"Valid posts: {len(result)}\n{'*'*90}")
+    print(result)
     return result
 
 def change_letter(message):
