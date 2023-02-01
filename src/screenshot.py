@@ -65,7 +65,7 @@ class Screenshot:
                 page_height = driver.execute_script("return document.body.scrollHeight")
                 if page_height != final_page_height and final_page_height <= 10000:
                     driver.execute_script("window.scrollTo(0, {})".format(page_height))
-                    time.sleep(load_wait_time)
+                    # time.sleep(load_wait_time)
                     final_page_height = page_height
                 else:
                     break
@@ -84,7 +84,7 @@ class Screenshot:
             viewport_width = driver.execute_script("return document.body.clientWidth")
             viewport_height = driver.execute_script("return window.innerHeight")
             driver.execute_script("window.scrollTo(0, 0)")
-            time.sleep(2)
+            # time.sleep(2)
             rectangles = []
 
             i = 0

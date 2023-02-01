@@ -39,11 +39,14 @@ class Session():
     def __init__(self, login=None, password=None, token=None):
         self.log_lock = threading.Lock()
         self.credential = login or token[:11]
+        
         try:
             if token:
                 session = VkApi(token=token, captcha_handler=captcha_handler)
             else:
+                print(login, password)
                 session = VkApi(login, password, captcha_handler=captcha_handler)
+                session.http.headers['User-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0'
                 session.auth()
         except AuthError as e:
             with self.log_lock:
