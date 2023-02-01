@@ -1,4 +1,4 @@
-from src import session, utils
+from src import session, utils, solver
 from loguru import logger
 from threading import Thread, Barrier
 from tqdm import tqdm
@@ -16,15 +16,14 @@ def create_session(ac):
 
 def main():
     links = []
-    with open('creds/links.txt', encoding="utf-8") as lnk_file, open('creds/messages.txt', encoding="utf-8") as msg, open('creds/accounts.txt') as accounts:
-        lnk, msg, accounts = lnk_file.read().split('\n'), msg.read().split('\n'), [ac.split(':') for ac in accounts.read().split('\n')]
-        loop = asyncio.get_event_loop()
+    with open('creds/messages.txt', encoding="utf-8") as msg, open('creds/accounts.txt') as accounts:
+        msg, accounts = msg.read().split('\n'), [ac.split(':') for ac in accounts.read().split('\n')]
 
         with ThreadPoolExecutor(max_workers=5) as executor:
             sessions = list(tqdm(executor.map(create_session, accounts), ncols=90, desc='Accounts auth'))
 
-        links = loop.run_until_complete(utils.check_links_async(lnk))
-        
+        links = asyncio.run(solver.solve_links('creds/links.txt'))
+
         with ThreadPoolExecutor(max_workers=THREADS) as executor:
             futures = [executor.submit(worker, s, links, msg) for s in sessions]
             done, not_done = wait(futures)
