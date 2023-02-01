@@ -2,6 +2,7 @@
 1. remote script execution (telegram bot)
 2. write tests
 3. make a zip archive as a result of a program
+4. selenium auth with cookies 
 
 # DONE:
  1. ~~make possible to threads to return a value at the end~~
