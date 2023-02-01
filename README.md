@@ -3,6 +3,7 @@
 2. write tests
 3. make a zip archive as a result of a program
 4. selenium auth with cookies 
+5. think about how to import chromedriver to heroku (to execute selenium on server)
 
 # DONE:
  1. ~~make possible to threads to return a value at the end~~
