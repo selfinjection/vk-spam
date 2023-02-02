@@ -87,7 +87,7 @@ def get_screenshots(links):
         
         lenOfPage = driver.execute_script("window.scrollTo(0, document.body.scrollHeight); var lenOfPage=document.body.scrollHeight; return lenOfPage;")
         match = False
-        while(match == False):
+        while not match:
                 lastCount = lenOfPage
                 time.sleep(0.5)     # Need tests to make it less
                 lenOfPage = driver.execute_script("window.scrollTo(0, document.body.scrollHeight); var lenOfPage=document.body.scrollHeight; return lenOfPage;")
