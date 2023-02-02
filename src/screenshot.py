@@ -28,7 +28,8 @@ class Screenshot:
         Raises:
             N/A
         """
-        pass
+        if not os.path.exists('imgs'):
+            os.makedirs('imgs')
 
     @staticmethod
     # Take temporary screenshot of the web page to get the size of the image
