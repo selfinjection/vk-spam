@@ -36,16 +36,14 @@ def captcha_handler(captcha):
 
 
 class Session():
-    def __init__(self, login=None, password=None, token=None):
+    def __init__(self, login=None, password=None, token=None, config_filename='vk_config.v2.json'):
         self.log_lock = threading.Lock()
         self.credential = login or token[:11]
-        
         try:
             if token:
-                session = VkApi(token=token, captcha_handler=captcha_handler)
+                session = VkApi(token=token, captcha_handler=captcha_handler, config_filename=config_filename)
             else:
-                print(login, password)
-                session = VkApi(login, password, captcha_handler=captcha_handler)
+                session = VkApi(login, password, captcha_handler=captcha_handler, config_filename=config_filename)
                 session.http.headers['User-agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0'
                 session.auth()
         except AuthError as e:
