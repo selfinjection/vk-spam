@@ -11,8 +11,10 @@ def worker(session: session.Session, links, msg):
     return result
 
 def create_session(ac):
-    print(ac)
-    return session.Session(token=ac[0]) if len(ac) == 1 else session.Session(ac[0], ac[1])
+    if len(ac) == 1:
+        return session.Session(token=ac[0], config_filename=f'vk_config/{ac[0]}.json')
+    else:
+        return session.Session(ac[0], ac[1], config_filename=f'vk_config/{ac[0]}_{ac[1]}.json')
 
 def main():
     links = []
